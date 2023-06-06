@@ -19,7 +19,6 @@ type Response struct {
 
 type Deal struct {
 	StatDate                        string `json:"stat_date"`
-	StatDate                        string `json:"stat_date"`
 	DailyProposedRegularDealCount   int    `json:"daily_proposed_regular_deal_count"`
 	DailyProposedVerifiedDealCount  int    `json:"daily_proposed_verified_deal_count"`
 	DailyActivatedRegularDealCount  int    `json:"daily_activated_regular_deal_count"`
