@@ -68,7 +68,9 @@ func main() {
 	fmt.Println("Total proposed regular deals:", totalDailyProposedRegularDealCount)
 	fmt.Println("Total proposed verified deals:", totalDailyProposedVerifiedDealCount)
 	fmt.Println("Total activated regular deals:", totalDailyActivatedRegularDealCount)
-	fmt.Println("Total activated verified dealsThe message appears to have been cut off, here is the remaining part of the code:
+	fmt.Println("Total activated verified deals:", totalDailyActivatedVerifiedDealCount)
+
+
 
 ```go
 	fmt.Println("Total activated verified deals:", totalDailyActivatedVerifiedDealCount)
