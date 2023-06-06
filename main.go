@@ -1,45 +1,45 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
 	"time"
 )
 
-const BaseURL = "https://api.spacescope.io/v2/deals/deal_count"
+type Response struct {
+	RequestID string `json:"request_id"`
+	Code      int    `json:"code"`
+	Message   string `json:"message"`
+	Data      []Deal `json:"data"`
+}
+
+type Deal struct {
+	StatDate string `json:"stat_date"`
+	// add other fields if you need them
+}
 
 func main() {
-	APIKey := os.Getenv("SPACESCOPE_API_KEY") // Retrieve the API key from an environment variable
-
-	startDate := time.Now().AddDate(0, 0, -7).Format("2006-01-02")
-	endDate := time.Now().Format("2006-01-02")
-
-	// Construct the request URL with query parameters
-	u, err := url.Parse(BaseURL)
-	if err != nil {
-		log.Fatal(err)
+	spacescopeAPIKey := os.Getenv("SPACESCOPE_API_KEY")
+	if spacescopeAPIKey == "" {
+		log.Fatal("SPACESCOPE_API_KEY environment variable is not set")
 	}
 
-	q := u.Query()
-	q.Set("start_date", startDate)
-	q.Set("end_date", endDate)
-	u.RawQuery = q.Encode()
-
-	// Create a new request using http
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Add authorization header to the req
-	req.Header.Add("Authorization", "Bearer "+APIKey)
-
-	// Send req using http Client
 	client := &http.Client{}
+	req, err := http.NewRequest("GET", "https://api.spacescope.io/v2/deals/deal_count", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	q := req.URL.Query()
+	q.Add("start_date", time.Now().AddDate(0, 0, -7).Format("2006-01-02"))
+	q.Add("end_date", time.Now().Format("2006-01-02"))
+	req.URL.RawQuery = q.Encode()
+
+	req.Header.Add("Authorization", "Bearer "+spacescopeAPIKey)
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatal(err)
@@ -51,5 +51,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(string(body))
+	var response Response
+	if err := json.Unmarshal(body, &response); err != nil {
+		log.Fatal(err)
+	}
+
+	prettyJSON, err := json.MarshalIndent(response, "", "    ")
+	if err != nil {
+		log.Fatal("Failed to generate json", err)
+	}
+
+	fmt.Println(string(prettyJSON))
 }
