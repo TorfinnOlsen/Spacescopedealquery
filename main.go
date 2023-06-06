@@ -18,8 +18,20 @@ type Response struct {
 }
 
 type Deal struct {
-	StatDate string `json:"stat_date"`
-	// add other fields if you need them
+	StatDate                        string `json:"stat_date"`
+	StatDate                        string `json:"stat_date"`
+	DailyProposedRegularDealCount   int    `json:"daily_proposed_regular_deal_count"`
+	DailyProposedVerifiedDealCount  int    `json:"daily_proposed_verified_deal_count"`
+	DailyActivatedRegularDealCount  int    `json:"daily_activated_regular_deal_count"`
+	DailyActivatedVerifiedDealCount int    `json:"daily_activated_verified_deal_count"`
+	DailySlashedRegularDealCount    int    `json:"daily_slashed_regular_deal_count"`
+	DailySlashedVerifiedDealCount   int    `json:"daily_slashed_verified_deal_count"`
+	DailyExpiredRegularDealCount    int    `json:"daily_expired_regular_deal_count"`
+	DailyExpiredVerifiedDealCount   int    `json:"daily_expired_verified_deal_count"`
+	TotalRegularDealCount           int    `json:"total_regular_deal_count"`
+	TotalVerifiedDealCount          int    `json:"total_verified_deal_count"`
+	ActiveRegularDealCount          int    `json:"active_regular_deal_count"`
+	ActiveVerifiedDealCount         int    `json:"active_verified_deal_count"`
 }
 
 func main() {
